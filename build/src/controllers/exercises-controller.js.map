@@ -1,1 +1,0 @@
-{"version":3,"file":"exercises-controller.js","sourceRoot":"","sources":["../../../src/controllers/exercises-controller.ts"],"names":[],"mappings":"AACA,OAAO,iBAAiB,MAAM,wCAAwC,CAAC;AAGvE,KAAK,UAAU,OAAO,CAAE,GAAY,EAAE,GAAa;IACjD,MAAM,MAAM,GAAG,MAAM,iBAAiB,CAAC,SAAS,EAAE,CAAC;IACnD,OAAO,GAAG,CAAC,IAAI,CAAC,MAAM,CAAC,IAAI,CAAC,CAAC;AAC/B,CAAC;AAED,OAAO,EACL,OAAO,EACR,CAAA"}
