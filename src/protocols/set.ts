@@ -1,7 +1,9 @@
 export type Set = {
-  id?: number,
-  weekid: number,
-  exerciseid: number,
-  reps: number,
-  weight: number
+  id?: number;
+  weekid: number;
+  exerciseid: number;
+  exercisename?: string;
+  reps: number;
+  weight: number;
 }
+

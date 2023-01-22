@@ -1,17 +1,17 @@
 import { connect } from 'net';
+import { QueryResult } from 'pg';
 import {connection} from '../database/database.js';
+import { Exercise } from '../protocols/exercise.js';
 
 
 async function insert(name:string) {
-  connection.query(
-    `
+  connection.query(`
     INSERT INTO exercises (name) VALUES $1;
   `,[name]);
 }
 
 async function remove(id: number) {
-  connection.query(
-  `
+  connection.query(`
     DELETE FROM exercises WHERE id=$1;
   `, [id]);
 }
@@ -22,13 +22,13 @@ async function update(name: string, id: number) {
   `,[name,id]);
 }
 
-async function selectAll(){
+async function selectAll(): Promise<QueryResult<Exercise[]>>{
   return connection.query(`
     SELECT * FROM exercises;
   `)
 }
 
-async function selectById(id: number){
+async function selectById(id: number):Promise<QueryResult<Exercise[]>>{
   return connection.query(`
     SELECT * FROM exercises WHERE id = $1
   `,[id])

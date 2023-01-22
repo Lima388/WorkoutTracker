@@ -1,12 +1,35 @@
 import setRepository from "../repositories/set-repository.js";
 async function listAll(req, res) {
-    const result = await setRepository.selectAll();
-    return res.send(result.rows);
+    try {
+        const result = await setRepository.selectAll();
+        return res.status(200).send(result.rows);
+    }
+    catch (error) {
+        console.log(error);
+        return res.sendStatus(500);
+    }
 }
-async function listOne(req, res) {
-    const id = req.body.id;
-    const result = await setRepository.selectById(id);
-    return res.send(result.rows[0]);
+async function create(req, res) {
+    try {
+        const set = res.locals.set;
+        await setRepository.insert(set);
+        return res.sendStatus(200);
+    }
+    catch (error) {
+        console.log(error);
+        return res.sendStatus(500);
+    }
 }
-export { listAll, listOne };
+async function update(req, res) {
+    try {
+        const set = res.locals.set;
+        await setRepository.update(set);
+        return res.sendStatus(200);
+    }
+    catch (error) {
+        console.log(error);
+        return res.sendStatus(500);
+    }
+}
+export { listAll, create, update };
 //# sourceMappingURL=sets-controller.js.map

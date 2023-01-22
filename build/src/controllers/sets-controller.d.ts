@@ -1,4 +1,6 @@
 import { Request, Response } from "express";
-declare function listAll(req: Request, res: Response): Promise<Response<any, Record<string, any>>>;
-declare function listOne(req: Request, res: Response): Promise<Response<any, Record<string, any>>>;
-export { listAll, listOne };
+import { Set } from "../protocols/set.js";
+declare function listAll(req: Request, res: Response): Promise<Response<Set[], Record<string, number>>>;
+declare function create(req: Request, res: Response): Promise<Response<Set[], Record<string, number>>>;
+declare function update(req: Request, res: Response): Promise<Response<Set[], Record<string, number>>>;
+export { listAll, create, update };
