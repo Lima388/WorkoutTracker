@@ -1,4 +1,4 @@
 export type Exercise = {
     id?:number;
-    name?:string;
+    name:string;
 }

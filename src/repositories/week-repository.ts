@@ -2,17 +2,14 @@ import { QueryResult } from "pg";
 import { connection } from "../database/database.js";
 import { Week } from "../protocols/week.js";
 
-async function insert(){
-  connection.query(`
+async function insert(): Promise<QueryResult<any>>{
+  return connection.query(`
     INSERT INTO weeks DEFAULT VALUES;
   `,[]);
 }
 
-async function remove(id:number){
-  connection.query(`
-  DELETE FROM sets WHERE weekid=$1;
-  `,[id]);
-  connection.query(`
+async function remove(id:number): Promise<QueryResult<any>>{
+  return connection.query(`
   DELETE FROM weeks WHERE id=$1;
   `,[id]);
   

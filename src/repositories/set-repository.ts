@@ -1,23 +1,28 @@
-import {connect} from 'net';
 import { QueryResult } from 'pg';
 import {connection} from '../database/database.js';
 import { Set } from '../protocols/set.js';
 
 
-async function insert(set: Set) {
-  connection.query(`
+async function insert(set: Set): Promise<QueryResult<any>> {
+  return connection.query(`
     INSERT INTO sets (weekid, exerciseid, reps, weight) VALUES ($1, $2, $3, $4);
   `,[set.weekid, set.exerciseid, set.reps, set.weight]);
 }
 
-async function remove(id: number) {
-  connection.query(`
+async function remove(id: number): Promise<QueryResult<any>> {
+  return connection.query(`
     DELETE FROM sets WHERE id=$1;
   `,[id]);
 }
 
-async function update(set: Set) {
-  connection.query(
+async function removeByWeekid(weekid: number): Promise<QueryResult<any>> {
+  return  connection.query(`
+  DELETE FROM sets WHERE weekid=$1;
+  `,[weekid]);
+}
+
+async function update(set: Set): Promise<QueryResult<any>> {
+  return connection.query(
     `
     UPDATE sets
     SET exerciseid = $2,
@@ -57,6 +62,7 @@ const setRepository = {
   update,
   selectAll,
   selectById,
+  removeByWeekid
 };
 
 export default setRepository;
