@@ -26,10 +26,17 @@ async function selectAllWithSets(): Promise<QueryResult<Week>> {
     GROUP BY weeks.id;
   `);
 }
+
+async function selectById(id: number): Promise<QueryResult<Week>>{
+  return connection.query(`
+    SELECT * FROM weeks WHERE id=$1;
+  `,[id]);
+}
 const weekRepository = {
   insert,
   remove,
   selectAllWithSets,
+  selectById
 };
 
 export default weekRepository;

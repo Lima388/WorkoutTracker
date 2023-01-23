@@ -5,7 +5,7 @@ import { Exercise } from '../protocols/exercise.js';
 
 async function insert(name:string): Promise<QueryResult<any>> {
   return connection.query(`
-    INSERT INTO exercises (name) VALUES $1;
+    INSERT INTO exercises (name) VALUES ($1);
   `,[name]);
 }
 
@@ -29,7 +29,7 @@ async function selectAll(): Promise<QueryResult<Exercise[]>>{
 
 async function selectById(id: number):Promise<QueryResult<Exercise[]>>{
   return connection.query(`
-    SELECT * FROM exercises WHERE id = $1
+    SELECT * FROM exercises WHERE id = $1;
   `,[id])
 }
 
