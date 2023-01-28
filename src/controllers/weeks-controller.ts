@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import weekRepository from "../repositories/week-repository.js";
+import setRepository from "../repositories/set-repository.js";
 import { Week } from "../protocols/week.js";
 
 async function listAllWithSets (req: Request, res: Response): Promise<Response<Week[],Record<string,number>>> {
@@ -30,7 +31,7 @@ async function remove(req: Request, res: Response): Promise<Response<string,Reco
       return res.sendStatus(400);
     }
     const id:number = parseInt(req.params.id as string);
-    
+    await setRepository.removeByWeekid(id);
     await weekRepository.remove(id);
     return res.sendStatus(200);
   }catch(error){

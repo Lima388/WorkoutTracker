@@ -33,4 +33,6 @@ async function create(req: Request, res: Response): Promise<Response<string,Reco
 export {
   listAll,
   create
+  listAll,
+  create
 }

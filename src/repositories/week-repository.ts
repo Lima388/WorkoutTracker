@@ -27,7 +27,7 @@ async function selectAllWithSets(): Promise<Week[]> {
 const weekRepository = {
   insert,
   remove,
-  selectAllWithSets,
+  selectAllWithSets
 };
 
 export default weekRepository;

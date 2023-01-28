@@ -16,6 +16,13 @@ async function remove(id: number) {
     }
   })
 }
+async function removeByWeekid(id: number) {
+  return await prisma.sets.deleteMany({
+    where:{
+      weekid: id
+    }
+  })
+}
 
 async function upsert(set: NewSet) {
   return await prisma.sets.upsert({
@@ -53,6 +60,7 @@ const setRepository = {
   upsert,
   selectAll,
   selectById,
+  removeByWeekid
 };
 
 export default setRepository;

@@ -1,7 +1,9 @@
 import { Request, Response } from "express";
 import setRepository from "../repositories/set-repository.js";
+import exerciseRepository from "../repositories/exercise-repository.js";
 import { Set } from "../protocols/set.js";
 import { number } from "joi";
+import weekRepository from "../repositories/week-repository.js";
 
 async function listAll (req: Request, res: Response): Promise<Response<Set[],Record<string,number>>> {
   try{
@@ -13,7 +15,7 @@ async function listAll (req: Request, res: Response): Promise<Response<Set[],Rec
   }
 }
 
-async function create (req: Request, res: Response): Promise<Response<Set[],Record<string,number>>>{
+async function create (req: Request, res: Response): Promise<Response<string,Record<string,number>>>{
   try{
     const set: Set = res.locals.set;
     const result = await setRepository.insert(set);
@@ -24,7 +26,7 @@ async function create (req: Request, res: Response): Promise<Response<Set[],Reco
   }
 }
 
-async function update (req: Request, res: Response): Promise<Response<Set[],Record<string,number>>>{
+async function update (req: Request, res: Response): Promise<Response<string,Record<string,number>>>{
   try{
     const set: Set = res.locals.set;
     const result = await setRepository.upsert(set);
