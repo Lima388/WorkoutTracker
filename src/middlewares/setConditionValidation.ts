@@ -6,12 +6,12 @@ import exerciseRepository from "../repositories/exercise-repository.js";
 export async function setConditionValidation(req: Request, res: Response, next: NextFunction): Promise< void | Response<number,Record<string,number>>>  {
     try{
       const set: Set = req.body;
-      const { rows : weekRows } = await weekRepository.selectById(set.weekid);
-      if( weekRows.length===0 ){
+      const week = await weekRepository.selectById(set.weekid);
+      if( week==null){
         return res.sendStatus(400);
       }
-      const {rows : exerciseRows }  = await exerciseRepository.selectById(set.exerciseid);
-      if( exerciseRows.length===0 ){
+      const  exercise   = await exerciseRepository.selectById(set.exerciseid);
+      if( exercise == null ){
         return res.sendStatus(400);
       }
       next();

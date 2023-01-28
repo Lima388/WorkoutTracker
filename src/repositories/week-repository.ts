@@ -12,6 +12,15 @@ async function remove(id:number){
     }
   })
 }
+
+async function selectById(id:number): Promise<Week|null>{
+  return await prisma.weeks.findUnique({
+    where:{
+      id:id,
+    }
+  })
+}
+
 async function selectAllWithSets(): Promise<Week[]> {
   return await prisma.$queryRaw`
     SELECT 
@@ -27,7 +36,8 @@ async function selectAllWithSets(): Promise<Week[]> {
 const weekRepository = {
   insert,
   remove,
-  selectAllWithSets
+  selectAllWithSets,
+  selectById
 };
 
 export default weekRepository;
