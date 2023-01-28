@@ -1,39 +1,37 @@
-import {connect} from 'net';
-import { QueryResult } from 'pg';
-import {connection} from '../database/database.js';
-import { Set } from '../protocols/set.js';
+import { create } from 'domain';
+import prisma from '../database/database.js';
+import { Set, NewSet } from '../protocols/set.js';
 
 
 async function insert(set: Set) {
-  connection.query(`
-    INSERT INTO sets (weekid, exerciseid, reps, weight) VALUES ($1, $2, $3, $4);
-  `,[set.weekid, set.exerciseid, set.reps, set.weight]);
+  return await prisma.sets.create({
+    data: set
+  })
 }
 
 async function remove(id: number) {
-  connection.query(`
-    DELETE FROM sets WHERE id=$1;
-  `,[id]);
+  return await prisma.sets.delete({
+    where:{
+      id: id
+    }
+  })
 }
 
-async function update(set: Set) {
-  connection.query(
-    `
-    UPDATE sets
-    SET exerciseid = $2,
-        reps = $3,
-        weight = $4,
-        weekid=$5
-    WHERE id=$1;
-  `,
-    [set.id, set.exerciseid, set.reps, set.weight, set.weekid]
-  );
+async function upsert(set: NewSet) {
+  return await prisma.sets.upsert({
+    where:{
+      id:set.id || 0,
+    },
+    create: set as Set,
+    update: set
+
+  })
 }
 
-async function selectAll(): Promise<QueryResult<Set>> {
-  return connection.query(`
+async function selectAll(): Promise<Set[]> {
+  return await prisma.$queryRaw`
     SELECT 
-      sets.id AS set_id,
+      sets.id,
       sets.weekid,
       sets.exerciseid,
       exercises.name as exercise_name,
@@ -41,20 +39,18 @@ async function selectAll(): Promise<QueryResult<Set>> {
       sets.reps
     FROM 
       sets 
-      LEFT JOIN exercises ON sets.exerciseid = exercises.id
-  `);
+      LEFT JOIN exercises ON sets.exerciseid = exercises.id;
+  `; 
 }
 
-async function selectById(id: number): Promise<QueryResult<Set>> {
-  return connection.query(`
-    SELECT * FROM sets WHERE id = $1
-  `,[id]);
+async function selectById(id: number){
+
 }
 
 const setRepository = {
   insert,
   remove,
-  update,
+  upsert,
   selectAll,
   selectById,
 };

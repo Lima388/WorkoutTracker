@@ -6,7 +6,7 @@ import { number } from "joi";
 async function listAll (req: Request, res: Response): Promise<Response<Set[],Record<string,number>>> {
   try{
     const result = await setRepository.selectAll();
-    return res.status(200).send(result.rows); 
+    return res.status(200).send(result); 
   }catch(error){
     console.log(error);
     return res.sendStatus(500);
@@ -16,8 +16,8 @@ async function listAll (req: Request, res: Response): Promise<Response<Set[],Rec
 async function create (req: Request, res: Response): Promise<Response<Set[],Record<string,number>>>{
   try{
     const set: Set = res.locals.set;
-    await setRepository.insert(set);
-    return res.sendStatus(200);
+    const result = await setRepository.insert(set);
+    return res.status(200).send(result);
   }catch(error){
     console.log(error);
     return res.sendStatus(500);
@@ -27,8 +27,8 @@ async function create (req: Request, res: Response): Promise<Response<Set[],Reco
 async function update (req: Request, res: Response): Promise<Response<Set[],Record<string,number>>>{
   try{
     const set: Set = res.locals.set;
-    await setRepository.update(set);
-    return res.sendStatus(200);
+    const result = await setRepository.upsert(set);
+    return res.status(200).send(result);
   }catch(error){
     console.log(error);
     return res.sendStatus(500);

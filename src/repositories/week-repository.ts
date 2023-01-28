@@ -1,24 +1,19 @@
-import { QueryResult } from "pg";
-import { connection } from "../database/database.js";
+import prisma from "../database/database.js"; 
 import { Week } from "../protocols/week.js";
 
 async function insert(){
-  connection.query(`
-    INSERT INTO weeks DEFAULT VALUES;
-  `,[]);
+  return await prisma.weeks.create({data:{}});
 }
 
 async function remove(id:number){
-  connection.query(`
-  DELETE FROM sets WHERE weekid=$1;
-  `,[id]);
-  connection.query(`
-  DELETE FROM weeks WHERE id=$1;
-  `,[id]);
-  
+  return await prisma.weeks.delete({
+    where:{
+      id: id
+    }
+  })
 }
-async function selectAllWithSets(): Promise<QueryResult<Week>> {
-  return connection.query(`
+async function selectAllWithSets(): Promise<Week[]> {
+  return await prisma.$queryRaw`
     SELECT 
       weeks.id AS id,
       COALESCE(json_agg(json_build_object('id', sets.id,'exerciseid', exercises.id, 'exercisename', exercises.name, 'weight', sets.weight, 'reps', sets.reps)), '[]') as sets
@@ -27,7 +22,7 @@ async function selectAllWithSets(): Promise<QueryResult<Week>> {
       LEFT JOIN sets ON weeks.id = sets.weekid
       LEFT JOIN exercises ON sets.exerciseid = exercises.id
     GROUP BY weeks.id;
-  `);
+  `;
 }
 const weekRepository = {
   insert,

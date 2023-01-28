@@ -1,5 +1,5 @@
-export type Set = {
-  id?: number;
+export type SetEntity = {
+  id: number;
   weekid: number;
   exerciseid: number;
   exercisename?: string;
@@ -7,3 +7,6 @@ export type Set = {
   weight: number;
 }
 
+export type Set = Omit<SetEntity, "id">
+
+export type NewSet = Partial<SetEntity>

@@ -5,7 +5,7 @@ import { Week } from "../protocols/week.js";
 async function listAllWithSets (req: Request, res: Response): Promise<Response<Week[],Record<string,number>>> {
   try{
     const result = await weekRepository.selectAllWithSets();
-    return res.status(200).send(result.rows); 
+    return res.status(200).send(result); 
   }catch(error){
     console.log(error);
     return res.sendStatus(500);
@@ -15,8 +15,8 @@ async function listAllWithSets (req: Request, res: Response): Promise<Response<W
 
 async function create(req: Request, res: Response): Promise<Response<string,Record<string,number>>>{
   try{
-    await weekRepository.insert();
-    return res.sendStatus(200); 
+    const result  = await weekRepository.insert();
+    return res.status(200).send(result); 
   }catch(error){
     console.log(error);
     return res.sendStatus(500);
